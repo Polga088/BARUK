@@ -16,6 +16,7 @@ export function ReceiptView({
   lines,
   subtotal,
   taxAmount,
+  tipAmount,
   total,
 }: {
   branchName: string;
@@ -25,6 +26,7 @@ export function ReceiptView({
   lines: ReceiptLine[];
   subtotal: number;
   taxAmount: number;
+  tipAmount: number;
   total: number;
 }) {
   function printReceipt() {
@@ -40,7 +42,9 @@ export function ReceiptView({
         <div className="text-center">
           <p className="text-lg font-bold">{branchName}</p>
           <p className="text-sm text-zinc-600">Reçu #{orderNumber}</p>
-          <p className="text-xs text-zinc-500">{tableName} · {paidAt}</p>
+          <p className="text-xs text-zinc-500">
+            {tableName} · {paidAt}
+          </p>
         </div>
 
         <ul className="mt-6 space-y-2 border-t border-dashed border-zinc-300 pt-4 text-sm">
@@ -54,7 +58,7 @@ export function ReceiptView({
           ))}
         </ul>
 
-        <div className="mt-4 border-t border-dashed border-zinc-300 pt-4 text-sm space-y-1">
+        <div className="mt-4 space-y-1 border-t border-dashed border-zinc-300 pt-4 text-sm">
           <p className="flex justify-between">
             <span>Sous-total</span>
             <span>{subtotal.toFixed(2)} MAD</span>
@@ -63,6 +67,12 @@ export function ReceiptView({
             <span>TVA (10%)</span>
             <span>{taxAmount.toFixed(2)} MAD</span>
           </p>
+          {tipAmount > 0 && (
+            <p className="flex justify-between">
+              <span>Pourboire</span>
+              <span>{tipAmount.toFixed(2)} MAD</span>
+            </p>
+          )}
           <p className="flex justify-between text-base font-bold">
             <span>Total</span>
             <span>{total.toFixed(2)} MAD</span>

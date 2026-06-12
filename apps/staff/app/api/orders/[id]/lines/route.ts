@@ -1,32 +1,32 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import { auth } from "@repo/auth";
 import { decimalToNumber, prisma } from "@repo/database";
+import { getEditableOrder, recalculateOrder } from "../../../../../lib/orders";
 
 const schema = z.object({
   menuItemId: z.string(),
   quantity: z.number().min(1).default(1),
 });
 
-async function recalculateOrder(orderId: string) {
-  const lines = await prisma.orderLine.findMany({ where: { orderId } });
-  const subtotal = lines.reduce(
-    (sum, line) => sum + decimalToNumber(line.total),
-    0,
-  );
-  const taxAmount = subtotal * 0.1;
-  const total = subtotal + taxAmount;
-
-  await prisma.order.update({
-    where: { id: orderId },
-    data: { subtotal, taxAmount, total, status: "SENT" },
-  });
-}
-
 export async function POST(
   request: Request,
   { params }: { params: Promise<{ id: string }> },
 ) {
+  const session = await auth();
+  if (!session?.user) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   const { id: orderId } = await params;
+  const editable = await getEditableOrder(orderId);
+
+  if (!editable) {
+    return NextResponse.json({ error: "Order not found" }, { status: 404 });
+  }
+  if (!editable.editable) {
+    return NextResponse.json({ error: "Order is not editable" }, { status: 409 });
+  }
 
   try {
     const data = schema.parse(await request.json());
@@ -39,18 +39,18 @@ export async function POST(
     }
 
     const unitPrice = decimalToNumber(menuItem.price);
-    const total = unitPrice * data.quantity;
 
     const existing = await prisma.orderLine.findFirst({
       where: { orderId, menuItemId: menuItem.id },
     });
 
     if (existing) {
+      const newQty = existing.quantity + data.quantity;
       await prisma.orderLine.update({
         where: { id: existing.id },
         data: {
-          quantity: existing.quantity + data.quantity,
-          total: decimalToNumber(existing.total) + total,
+          quantity: newQty,
+          total: unitPrice * newQty,
         },
       });
     } else {
@@ -61,13 +61,19 @@ export async function POST(
           name: menuItem.name,
           quantity: data.quantity,
           unitPrice: menuItem.price,
-          total,
+          total: unitPrice * data.quantity,
         },
       });
     }
 
-    await recalculateOrder(orderId);
-    return NextResponse.json({ ok: true });
+    const order = await recalculateOrder(orderId);
+    return NextResponse.json({
+      ok: true,
+      subtotal: decimalToNumber(order!.subtotal),
+      taxAmount: decimalToNumber(order!.taxAmount),
+      tipAmount: decimalToNumber(order!.tipAmount),
+      total: decimalToNumber(order!.total),
+    });
   } catch {
     return NextResponse.json({ error: "Invalid data" }, { status: 400 });
   }

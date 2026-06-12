@@ -33,6 +33,7 @@ export default async function ReceiptPage({
       }))}
       subtotal={decimalToNumber(order.subtotal)}
       taxAmount={decimalToNumber(order.taxAmount)}
+      tipAmount={decimalToNumber(order.tipAmount)}
       total={decimalToNumber(order.total)}
     />
   );

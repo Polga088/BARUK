@@ -54,6 +54,8 @@ export default async function OrderPage({
         total: decimalToNumber(line.total),
       }))}
       subtotal={decimalToNumber(order.subtotal)}
+      taxAmount={decimalToNumber(order.taxAmount)}
+      tipAmount={decimalToNumber(order.tipAmount)}
       total={decimalToNumber(order.total)}
       status={order.status}
     />
