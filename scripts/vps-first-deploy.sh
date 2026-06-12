@@ -4,10 +4,15 @@
 set -euo pipefail
 
 APP_DIR="/opt/baruk"
-# Remplacer par votre dépôt Git quand disponible
-REPO="${BARUK_REPO:-}"
+REPO="${BARUK_REPO:-https://github.com/Polga088/BARUK.git}"
 
 VPS_IP="${VPS_IP:-109.123.254.120}"
+
+# 8090-8093 : coexistence avec Immg (8080) et CRM (80/443)
+WEB_PORT="${WEB_PORT:-8090}"
+OWNER_PORT="${OWNER_PORT:-8091}"
+ADMIN_PORT="${ADMIN_PORT:-8092}"
+STAFF_PORT="${STAFF_PORT:-8093}"
 
 echo "==> BARUK — first deploy on $(hostname)"
 
@@ -37,19 +42,19 @@ if [ ! -f .env ]; then
 NODE_ENV=production
 VPS_HOST=${VPS_IP}
 
-WEB_PORT=8080
-OWNER_PORT=8081
-ADMIN_PORT=8082
-STAFF_PORT=8083
+WEB_PORT=${WEB_PORT}
+OWNER_PORT=${OWNER_PORT}
+ADMIN_PORT=${ADMIN_PORT}
+STAFF_PORT=${STAFF_PORT}
 
-WEB_URL=http://${VPS_IP}:8080
-OWNER_URL=http://${VPS_IP}:8081
-ADMIN_URL=http://${VPS_IP}:8082
-STAFF_URL=http://${VPS_IP}:8083
+WEB_URL=http://${VPS_IP}:${WEB_PORT}
+OWNER_URL=http://${VPS_IP}:${OWNER_PORT}
+ADMIN_URL=http://${VPS_IP}:${ADMIN_PORT}
+STAFF_URL=http://${VPS_IP}:${STAFF_PORT}
 
-NEXT_PUBLIC_OWNER_URL=http://${VPS_IP}:8081
-NEXT_PUBLIC_ADMIN_URL=http://${VPS_IP}:8082
-NEXT_PUBLIC_STAFF_URL=http://${VPS_IP}:8083
+NEXT_PUBLIC_OWNER_URL=http://${VPS_IP}:${OWNER_PORT}
+NEXT_PUBLIC_ADMIN_URL=http://${VPS_IP}:${ADMIN_PORT}
+NEXT_PUBLIC_STAFF_URL=http://${VPS_IP}:${STAFF_PORT}
 
 POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
 DATABASE_URL=postgresql://baruk:${POSTGRES_PASSWORD}@postgres:5432/baruk?schema=public
@@ -69,10 +74,10 @@ SEED_ON_DEPLOY=true ./scripts/deploy-vps.sh
 
 echo ""
 echo "==> BARUK live on VPS"
-echo "    Web   : http://${VPS_IP}:8080"
-echo "    Owner : http://${VPS_IP}:8081  (owner@baruk.ma / owner123 after seed)"
-echo "    Admin : http://${VPS_IP}:8082  (admin@baruk.ma / admin123)"
-echo "    Staff : http://${VPS_IP}:8083  (serveur@baruk.ma / staff123)"
+echo "    Web   : http://${VPS_IP}:${WEB_PORT}"
+echo "    Owner : http://${VPS_IP}:${OWNER_PORT}  (owner@baruk.ma / owner123 after seed)"
+echo "    Admin : http://${VPS_IP}:${ADMIN_PORT}  (admin@baruk.ma / admin123)"
+echo "    Staff : http://${VPS_IP}:${STAFF_PORT}  (serveur@baruk.ma / staff123)"
 echo ""
 echo "==> HTTPS (optionnel, domaine requis) :"
 echo "    deploy/nginx/baruk-subdomains.conf.template → nginx système + certbot"

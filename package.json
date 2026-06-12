@@ -13,7 +13,8 @@
     "db:seed": "pnpm --filter @repo/database db:seed",
     "db:local": "bash scripts/dev-local.sh",
     "env:sync": "bash scripts/sync-env.sh",
-    "deploy:vps": "bash scripts/deploy-vps.sh"
+    "deploy:vps": "bash scripts/deploy-vps.sh",
+    "deploy:remote": "bash scripts/deploy-from-mac.sh"
   },
   "devDependencies": {
     "prettier": "^3.6.0",
