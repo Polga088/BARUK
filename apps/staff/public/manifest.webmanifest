@@ -4,8 +4,8 @@
   "description": "Interface serveurs — commandes et pointage",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#09090b",
-  "theme_color": "#b86318",
+  "background_color": "#1a1410",
+  "theme_color": "#c4694a",
   "orientation": "landscape",
   "icons": [
     {

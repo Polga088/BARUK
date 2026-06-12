@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+    <defs>
+      <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#d4a574"/>
+        <stop offset="100%" stop-color="#c9a227"/>
+      </linearGradient>
+      <radialGradient id="light" cx="50%" cy="30%" r="60%">
+        <stop offset="0%" stop-color="#fff" stop-opacity="0.25"/>
+        <stop offset="100%" stop-color="#000" stop-opacity="0.15"/>
+      </radialGradient>
+    </defs>
+    <rect width="800" height="600" fill="url(#g)"/>
+    <ellipse cx="400" cy="320" rx="220" ry="140" fill="#1a1410" fill-opacity="0.12"/>
+    <ellipse cx="400" cy="300" rx="180" ry="110" fill="url(#light)"/>
+    <text x="400" y="480" text-anchor="middle" font-family="Georgia, serif" font-size="42" fill="#f5ede0" fill-opacity="0.9">Couscous</text>
+    <text x="400" y="520" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#f5ede0" fill-opacity="0.5" letter-spacing="8">BARUK</text>
+  </svg>

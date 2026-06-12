@@ -2,12 +2,15 @@ import { type ButtonHTMLAttributes, forwardRef } from "react";
 
 const variants = {
   primary:
-    "ui:bg-baruk-600 ui:text-white ui:hover:bg-baruk-500 ui:shadow-sm",
+    "ui:bg-baruk-600 ui:text-white ui:hover:bg-baruk-700 ui:shadow-[var(--shadow-warm-sm)] ui:hover:shadow-[var(--shadow-warm-md)]",
+  gold:
+    "ui:border ui:border-gold-500 ui:text-gold-600 ui:hover:bg-gold-500/10 ui:bg-transparent",
   secondary:
-    "ui:bg-surface-800 ui:text-white ui:hover:bg-surface-700 ui:border ui:border-surface-700",
+    "ui:bg-warm-900 ui:text-cream-100 ui:hover:bg-baruk-900 ui:border ui:border-warm-800",
   outline:
-    "ui:border ui:border-baruk-600 ui:text-baruk-600 ui:hover:bg-baruk-50 ui:dark:text-baruk-400 ui:dark:hover:bg-baruk-950",
-  ghost: "ui:text-baruk-700 ui:hover:bg-baruk-50 ui:dark:text-baruk-300",
+    "ui:border ui:border-baruk-600 ui:text-baruk-700 ui:hover:bg-baruk-100 ui:bg-transparent",
+  ghost:
+    "ui:text-baruk-800 ui:hover:bg-baruk-100 ui:bg-transparent",
   danger: "ui:bg-red-600 ui:text-white ui:hover:bg-red-500",
 } as const;
 
@@ -27,7 +30,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <button
         ref={ref}
-        className={`ui:inline-flex ui:items-center ui:justify-center ui:rounded-lg ui:font-medium ui:transition-colors ui:disabled:opacity-50 ui:disabled:pointer-events-none ${variants[variant]} ${sizes[size]} ${className}`}
+        className={`ui:inline-flex ui:items-center ui:justify-center ui:rounded-xl ui:font-medium ui:transition-all ui:duration-200 ui:disabled:opacity-50 ui:disabled:pointer-events-none ${variants[variant]} ${sizes[size]} ${className}`}
         {...props}
       />
     );

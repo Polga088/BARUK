@@ -58,36 +58,47 @@ export function NfcClockIn() {
   }
 
   return (
-    <div className="mx-auto max-w-lg space-y-6">
+    <div className="mx-auto max-w-lg space-y-8">
       <div>
-        <h1 className="text-2xl font-bold">Pointage shift</h1>
-        <p className="text-zinc-400">
+        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gold-500">
+          Pointage
+        </p>
+        <h1 className="mt-2 font-display text-3xl font-bold text-cream-100">
+          Pointage shift
+        </h1>
+        <p className="mt-2 text-baruk-300">
           Scan NFC ou code PIN pour pointer début/fin de service.
         </p>
       </div>
 
-      <div className="rounded-xl border border-surface-700 bg-surface-900 p-6 space-y-4">
-        <Button onClick={scanNfc} disabled={loading} className="w-full" size="lg">
+      <div className="space-y-5 rounded-2xl border border-baruk-800 bg-warm-800 p-6">
+        <Button onClick={scanNfc} disabled={loading} className="min-h-[52px] w-full" size="lg">
           Scanner carte NFC
         </Button>
 
-        <div className="border-t border-surface-700 pt-4">
-          <p className="mb-2 text-sm text-zinc-400">Secours — code PIN</p>
-          <div className="flex gap-2">
+        <div className="border-t border-baruk-800 pt-5">
+          <p className="mb-3 text-sm text-baruk-400">Secours — code PIN</p>
+          <div className="flex gap-3">
             <Input
               value={pin}
               onChange={(e) => setPin(e.target.value)}
               placeholder="1234"
-              className="flex-1"
+              variant="dark"
+              className="min-h-[48px] flex-1 text-center text-lg tracking-[0.3em]"
             />
-            <Button variant="secondary" onClick={clockWithPin} disabled={loading}>
+            <Button
+              variant="gold"
+              onClick={clockWithPin}
+              disabled={loading}
+              className="min-h-[48px] px-6"
+            >
               Valider
             </Button>
           </div>
         </div>
 
         {message && (
-          <p className="rounded-lg bg-baruk-950 px-3 py-2 text-sm text-baruk-200">
+          <p className="rounded-xl border border-baruk-700 bg-warm-900 px-4 py-3 text-sm text-baruk-200">
             {message}
           </p>
         )}

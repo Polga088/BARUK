@@ -1,10 +1,10 @@
 import { Suspense } from "react";
 import { LoginForm } from "../../components/login-form";
 
-export default function LoginPage() {
+export default function StaffLoginPage() {
   return (
     <Suspense>
-      <LoginForm appLabel="Staff" />
+      <LoginForm appLabel="Staff" variant="dark" />
     </Suspense>
   );
 }

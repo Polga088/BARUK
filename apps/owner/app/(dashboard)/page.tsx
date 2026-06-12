@@ -7,6 +7,8 @@ import {
 } from "@repo/database";
 import { Panel, PanelContent, PanelHeader } from "@repo/ui/panel";
 import { Badge } from "@repo/ui/badge";
+import { StatCard } from "@repo/ui/dashboard";
+import { PageHeader } from "@repo/ui/layout";
 
 export default async function OwnerDashboardPage() {
   const branch = await getDefaultBranch();
@@ -50,63 +52,44 @@ export default async function OwnerDashboardPage() {
   );
 
   const stats = [
-    {
-      label: "CA du jour",
-      value: formatCurrency(revenueToday),
-    },
-    {
-      label: "Commandes payées",
-      value: String(ordersToday.length),
-    },
-    {
-      label: "Réservations en attente",
-      value: String(reservationsPending),
-    },
-    {
-      label: "Alertes stock",
-      value: String(lowStockItems.length),
-    },
+    { label: "CA du jour", value: formatCurrency(revenueToday) },
+    { label: "Commandes payées", value: String(ordersToday.length) },
+    { label: "Réservations en attente", value: String(reservationsPending) },
+    { label: "Alertes stock", value: String(lowStockItems.length) },
   ];
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold text-zinc-900">Tableau de bord</h1>
-        <p className="text-zinc-500">Vue d&apos;ensemble de {branch.name}</p>
-      </div>
+    <div className="space-y-8">
+      <PageHeader
+        title="Tableau de bord"
+        description={`Vue d'ensemble de ${branch.name}`}
+      />
 
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         {stats.map((stat) => (
-          <Panel key={stat.label}>
-            <PanelContent>
-              <p className="text-sm text-zinc-500">{stat.label}</p>
-              <p className="mt-2 text-2xl font-bold text-baruk-700">
-                {stat.value}
-              </p>
-            </PanelContent>
-          </Panel>
+          <StatCard key={stat.label} label={stat.label} value={stat.value} />
         ))}
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">
         <Panel>
           <PanelHeader title="Caisse du jour" />
-          <PanelContent className="space-y-2 text-sm">
-            <p>
-              Fond de caisse :{" "}
-              <strong>
+          <PanelContent className="space-y-3 text-sm">
+            <p className="flex justify-between border-b border-baruk-100 pb-2">
+              <span className="text-baruk-700/70">Fond de caisse</span>
+              <strong className="text-baruk-900">
                 {formatCurrency(decimalToNumber(ledger?.openingCash ?? 0))}
               </strong>
             </p>
-            <p>
-              Ventes enregistrées :{" "}
-              <strong>
+            <p className="flex justify-between border-b border-baruk-100 pb-2">
+              <span className="text-baruk-700/70">Ventes enregistrées</span>
+              <strong className="text-gold-600">
                 {formatCurrency(decimalToNumber(ledger?.totalSales ?? 0))}
               </strong>
             </p>
-            <p>
-              Pourboires :{" "}
-              <strong>
+            <p className="flex justify-between">
+              <span className="text-baruk-700/70">Pourboires</span>
+              <strong className="text-baruk-900">
                 {formatCurrency(decimalToNumber(ledger?.totalTips ?? 0))}
               </strong>
             </p>
@@ -117,15 +100,15 @@ export default async function OwnerDashboardPage() {
           <PanelHeader title="Stock critique" />
           <PanelContent>
             {lowStockItems.length === 0 ? (
-              <p className="text-sm text-zinc-500">Aucune alerte.</p>
+              <p className="text-sm text-baruk-700/60">Aucune alerte.</p>
             ) : (
-              <ul className="space-y-2">
+              <ul className="space-y-3">
                 {lowStockItems.map((item) => (
                   <li
                     key={item.id}
                     className="flex items-center justify-between text-sm"
                   >
-                    <span>{item.name}</span>
+                    <span className="text-baruk-900">{item.name}</span>
                     <Badge variant="danger">
                       {decimalToNumber(item.quantity)} {item.unit}
                     </Badge>

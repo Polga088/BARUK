@@ -23,7 +23,8 @@
   },
   "peerDependencies": {
     "react": "^19",
-    "next": ">=15"
+    "next": ">=15",
+    "next-auth": "^5"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
@@ -32,6 +33,7 @@
     "@tailwindcss/cli": "^4.1.5",
     "@types/react": "^19.1.0",
     "eslint": "^9.39.1",
+    "next-auth": "5.0.0-beta.30",
     "tailwindcss": "^4.1.5",
     "typescript": "5.9.2"
   }

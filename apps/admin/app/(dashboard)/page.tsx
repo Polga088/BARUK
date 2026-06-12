@@ -1,5 +1,6 @@
 import { prisma } from "@repo/database";
-import { Panel, PanelContent, PanelHeader } from "@repo/ui/panel";
+import { StatCard } from "@repo/ui/dashboard";
+import { PageHeader } from "@repo/ui/layout";
 
 export default async function AdminDashboardPage() {
   const [orgCount, branchCount, userCount, orderCount] = await Promise.all([
@@ -17,20 +18,15 @@ export default async function AdminDashboardPage() {
   ];
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold">Vue globale</h1>
-        <p className="text-zinc-500">Supervision multi-filiales BARUK.</p>
-      </div>
+    <div className="space-y-8">
+      <PageHeader
+        title="Vue globale"
+        description="Supervision multi-filiales BARUK."
+      />
 
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         {stats.map((stat) => (
-          <Panel key={stat.label}>
-            <PanelContent>
-              <p className="text-sm text-zinc-500">{stat.label}</p>
-              <p className="mt-2 text-2xl font-bold text-baruk-700">{stat.value}</p>
-            </PanelContent>
-          </Panel>
+          <StatCard key={stat.label} label={stat.label} value={stat.value} />
         ))}
       </div>
     </div>

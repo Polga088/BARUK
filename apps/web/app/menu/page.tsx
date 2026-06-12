@@ -4,6 +4,7 @@ import {
   prisma,
 } from "@repo/database";
 import { Menu3DViewer } from "../../components/menu-3d-viewer";
+import { Container } from "@repo/ui/layout";
 
 export const dynamic = "force-dynamic";
 
@@ -32,12 +33,13 @@ export default async function MenuPage() {
       name: item.name,
       description: item.description,
       price: decimalToNumber(item.price),
+      imageUrl: item.imageUrl,
     })),
   }));
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-12">
+    <Container className="py-12 md:py-16">
       <Menu3DViewer categories={view} />
-    </div>
+    </Container>
   );
 }

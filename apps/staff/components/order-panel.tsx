@@ -64,33 +64,45 @@ export function OrderPanel({
   return (
     <div className="grid gap-6 lg:grid-cols-2">
       <div>
-        <h1 className="text-2xl font-bold">{tableName}</h1>
-        <p className="text-zinc-400">Commande · {status}</p>
+        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gold-500">
+          Commande
+        </p>
+        <h1 className="mt-1 font-display text-2xl font-bold text-cream-100">
+          {tableName}
+        </h1>
+        <p className="text-baruk-300">Statut · {status}</p>
 
-        <div className="mt-4 max-h-[60vh] space-y-2 overflow-y-auto">
+        <div className="mt-5 max-h-[60vh] space-y-2 overflow-y-auto pr-1">
           {menuItems.map((item) => (
             <button
               key={item.id}
               type="button"
               disabled={loading || status === "PAID"}
               onClick={() => addItem(item)}
-              className="flex w-full items-center justify-between rounded-lg border border-surface-700 bg-surface-900 px-4 py-3 text-left hover:border-baruk-500 disabled:opacity-50"
+              className="flex min-h-[52px] w-full items-center justify-between rounded-xl border border-baruk-800 bg-warm-800 px-4 py-3 text-left transition hover:border-baruk-600 active:scale-[0.99] disabled:opacity-50"
             >
               <div>
-                <p className="font-medium">{item.name}</p>
-                <p className="text-xs text-zinc-500">{item.categoryName}</p>
+                <p className="font-medium text-cream-100">{item.name}</p>
+                <p className="text-xs text-baruk-400">{item.categoryName}</p>
               </div>
-              <span className="text-baruk-300">{item.price.toFixed(0)} MAD</span>
+              <span className="font-semibold text-gold-400">
+                {item.price.toFixed(0)} MAD
+              </span>
             </button>
           ))}
         </div>
       </div>
 
-      <div className="rounded-xl border border-surface-700 bg-surface-900 p-4">
-        <h2 className="font-semibold">Ticket en cours</h2>
-        <ul className="mt-4 space-y-2 text-sm">
+      <div className="rounded-2xl border border-baruk-800 bg-warm-800 p-5">
+        <h2 className="font-display text-lg font-semibold text-cream-100">
+          Ticket en cours
+        </h2>
+        <ul className="mt-4 space-y-3 text-sm">
           {lines.map((line) => (
-            <li key={line.id} className="flex justify-between">
+            <li
+              key={line.id}
+              className="flex justify-between border-b border-baruk-800/80 pb-2 text-cream-200"
+            >
               <span>
                 {line.quantity}x {line.name}
               </span>
@@ -98,19 +110,19 @@ export function OrderPanel({
             </li>
           ))}
         </ul>
-        <div className="mt-4 border-t border-surface-700 pt-4 space-y-1 text-sm">
-          <p className="flex justify-between">
+        <div className="mt-4 space-y-2 border-t border-baruk-700 pt-4 text-sm">
+          <p className="flex justify-between text-baruk-300">
             <span>Sous-total</span>
             <span>{subtotal.toFixed(0)} MAD</span>
           </p>
-          <p className="flex justify-between font-bold text-baruk-300">
+          <p className="flex justify-between text-lg font-bold text-gold-400">
             <span>Total TTC</span>
             <span>{total.toFixed(0)} MAD</span>
           </p>
         </div>
         {status !== "PAID" && (
           <Button
-            className="mt-4 w-full"
+            className="mt-5 w-full min-h-[52px]"
             size="lg"
             disabled={loading || lines.length === 0}
             onClick={payOrder}

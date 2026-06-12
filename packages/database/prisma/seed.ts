@@ -121,27 +121,27 @@ async function main() {
       name: "Entrées",
       description: "Pour bien commencer",
       items: [
-        { name: "Salade BARUK", description: "Mesclun, grenade, feta", price: 65 },
-        { name: "Briouates au fromage", description: "Feuilletées croustillantes", price: 45 },
-        { name: "Soupe du jour", description: "Recette du chef", price: 40 },
+        { name: "Salade BARUK", slug: "salade-baruk", description: "Mesclun, grenade, feta", price: 65 },
+        { name: "Briouates au fromage", slug: "briouates-fromage", description: "Feuilletées croustillantes", price: 45 },
+        { name: "Soupe du jour", slug: "soupe-jour", description: "Recette du chef", price: 40 },
       ],
     },
     {
       name: "Plats",
       description: "Nos signatures",
       items: [
-        { name: "Tajine poulet citron", description: "Olives confites, semoule", price: 120 },
-        { name: "Couscous royal", description: "7 légumes, viandes", price: 145 },
-        { name: "Pastilla au poulet", description: "Amandes, cannelle", price: 110 },
+        { name: "Tajine poulet citron", slug: "tajine-poulet-citron", description: "Olives confites, semoule", price: 120 },
+        { name: "Couscous royal", slug: "couscous-royal", description: "7 légumes, viandes", price: 145 },
+        { name: "Pastilla au poulet", slug: "pastilla-poulet", description: "Amandes, cannelle", price: 110 },
       ],
     },
     {
       name: "Desserts",
       description: "Douceurs maison",
       items: [
-        { name: "Chebakia", description: "Miel et sésame", price: 35 },
-        { name: "Pastilla au lait", description: "Cannelle, fleur d'oranger", price: 40 },
-        { name: "Salade de fruits", description: "Fruits de saison", price: 45 },
+        { name: "Chebakia", slug: "chebakia", description: "Miel et sésame", price: 35 },
+        { name: "Pastilla au lait", slug: "pastilla-lait", description: "Cannelle, fleur d'oranger", price: 40 },
+        { name: "Salade de fruits", slug: "salade-fruits", description: "Fruits de saison", price: 45 },
       ],
     },
   ];
@@ -164,6 +164,7 @@ async function main() {
           description: item.description,
           price: item.price,
           sortOrder: itemIndex,
+          imageUrl: `/menu/${item.slug}.svg`,
         },
       });
     }
