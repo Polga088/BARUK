@@ -1,6 +1,7 @@
 FROM node:22-alpine AS base
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
+RUN apk add --no-cache openssl libc6-compat
 RUN corepack enable && corepack prepare pnpm@10.19.0 --activate
 
 FROM base AS deps
@@ -24,6 +25,8 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
+# Re-link workspace packages after copying source (pnpm symlinks)
+RUN pnpm install --frozen-lockfile
 RUN pnpm db:generate
 RUN pnpm turbo run build --filter=${APP}
 
