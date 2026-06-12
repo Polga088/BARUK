@@ -22,6 +22,14 @@ if ! command -v docker &>/dev/null; then
   curl -fsSL https://get.docker.com | sh
 fi
 
+if command -v ufw &>/dev/null; then
+  ufw allow 22/tcp || true
+  ufw allow "${WEB_PORT}"/tcp || true
+  ufw allow "${OWNER_PORT}"/tcp || true
+  ufw allow "${ADMIN_PORT}"/tcp || true
+  ufw allow "${STAFF_PORT}"/tcp || true
+fi
+
 if [ -n "$REPO" ]; then
   if [ ! -d "$APP_DIR" ]; then
     git clone "$REPO" "$APP_DIR"
