@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { type ReactNode } from "react";
+import { LogoutButton } from "./logout-button";
 
 export function AppShell({
   title,
@@ -30,11 +31,14 @@ export function AppShell({
             </span>
           </div>
           {user && (
-            <div className="ui:text-sm ui:text-olive-800">
-              {user.name}{" "}
-              <span className="ui:rounded-full ui:bg-olive-100 ui:px-2.5 ui:py-0.5 ui:text-xs ui:font-medium ui:text-olive-700">
-                {user.role}
+            <div className="ui:flex ui:items-center ui:gap-3 ui:text-sm ui:text-olive-800">
+              <span>
+                {user.name}{" "}
+                <span className="ui:rounded-full ui:bg-olive-100 ui:px-2.5 ui:py-0.5 ui:text-xs ui:font-medium ui:text-olive-700">
+                  {user.role}
+                </span>
               </span>
+              <LogoutButton />
             </div>
           )}
         </div>
@@ -108,7 +112,10 @@ export function StaffShell({
               })}
             </nav>
           </div>
-          <p className="ui:text-sm ui:text-baruk-300">{userName}</p>
+          <div className="ui:flex ui:items-center ui:gap-3">
+            <p className="ui:text-sm ui:text-baruk-300">{userName}</p>
+            <LogoutButton variant="outline" className="ui:border-baruk-700 ui:text-cream-200" />
+          </div>
         </div>
       </header>
       <main className="ui:mx-auto ui:max-w-6xl ui:px-4 ui:py-6">{children}</main>

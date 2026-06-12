@@ -14,9 +14,50 @@ declare module "next-auth" {
   }
 }
 
+function getCookiePrefix() {
+  const app = process.env.AUTH_APP_NAME ?? "default";
+  return `baruk.${app}`;
+}
+
+function authCookies() {
+  const prefix = getCookiePrefix();
+  const secure = process.env.AUTH_URL?.startsWith("https://") ?? false;
+
+  return {
+    sessionToken: {
+      name: secure ? `__Secure-${prefix}.session-token` : `${prefix}.session-token`,
+      options: {
+        httpOnly: true,
+        sameSite: "lax" as const,
+        path: "/",
+        secure,
+      },
+    },
+    callbackUrl: {
+      name: secure ? `__Secure-${prefix}.callback-url` : `${prefix}.callback-url`,
+      options: {
+        httpOnly: true,
+        sameSite: "lax" as const,
+        path: "/",
+        secure,
+      },
+    },
+    csrfToken: {
+      name: secure ? `__Host-${prefix}.csrf-token` : `${prefix}.csrf-token`,
+      options: {
+        httpOnly: true,
+        sameSite: "lax" as const,
+        path: "/",
+        secure,
+      },
+    },
+  };
+}
+
 export const { handlers, auth, signIn, signOut } = NextAuth({
   trustHost: true,
   secret: process.env.AUTH_SECRET,
+  cookies: authCookies(),
   providers: [
     Credentials({
       name: "credentials",

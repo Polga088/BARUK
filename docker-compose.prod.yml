@@ -54,6 +54,7 @@ services:
     restart: unless-stopped
     environment:
       <<: *app-env
+      AUTH_APP_NAME: owner
       AUTH_URL: ${OWNER_URL}
       NEXTAUTH_URL: ${OWNER_URL}
     depends_on:
@@ -74,6 +75,7 @@ services:
     restart: unless-stopped
     environment:
       <<: *app-env
+      AUTH_APP_NAME: admin
       AUTH_URL: ${ADMIN_URL}
       NEXTAUTH_URL: ${ADMIN_URL}
     depends_on:
@@ -94,6 +96,7 @@ services:
     restart: unless-stopped
     environment:
       <<: *app-env
+      AUTH_APP_NAME: staff
       AUTH_URL: ${STAFF_URL}
       NEXTAUTH_URL: ${STAFF_URL}
     depends_on:

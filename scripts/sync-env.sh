@@ -14,6 +14,7 @@ copy_app_env() {
   {
     echo ""
     echo "# Overrides ${app}"
+    echo "AUTH_APP_NAME=${app}"
     echo "AUTH_URL=${url}"
     echo "NEXTAUTH_URL=${url}"
   } >> "apps/${app}/.env"

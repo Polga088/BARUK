@@ -33,8 +33,8 @@ export function hasMinimumRole(
 
 export const APP_ACCESS: Record<string, UserRole[]> = {
   admin: [ROLES.ADMIN],
-  owner: [ROLES.ADMIN, ROLES.OWNER],
-  staff: [ROLES.ADMIN, ROLES.OWNER, ROLES.STAFF],
+  owner: [ROLES.OWNER],
+  staff: [ROLES.STAFF],
   web: [],
 };
 
