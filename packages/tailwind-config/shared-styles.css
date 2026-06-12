@@ -1,46 +1,57 @@
 @import "tailwindcss";
 
 @theme {
-  /* BARUK — terracotta / ocre / beige / or (Instagram @baruk.ma) */
-  --color-baruk-50: #faf6f0;
-  --color-baruk-100: #f5ede0;
-  --color-baruk-200: #ede4d4;
-  --color-baruk-300: #e0cfb8;
-  --color-baruk-400: #d4a574;
-  --color-baruk-500: #c8935a;
-  --color-baruk-600: #c4694a;
-  --color-baruk-700: #a85540;
-  --color-baruk-800: #7a3d2e;
-  --color-baruk-900: #3d2914;
-  --color-baruk-950: #2c1810;
+  /* BARUK brand — extrait menus Instagram @baruk.ma */
+  /* Terracotta (prix, script, accents) */
+  --color-baruk-50: #fef7f5;
+  --color-baruk-100: #fde8e3;
+  --color-baruk-200: #f9c9bd;
+  --color-baruk-300: #f0a090;
+  --color-baruk-400: #e06b52;
+  --color-baruk-500: #d04a35;
+  --color-baruk-600: #c43d2a;
+  --color-baruk-700: #a33224;
+  --color-baruk-800: #862d22;
+  --color-baruk-900: #6f2a21;
+  --color-baruk-950: #3d120d;
 
-  --color-gold-300: #e8d48a;
-  --color-gold-400: #d4af37;
-  --color-gold-500: #c9a227;
-  --color-gold-600: #a8861f;
+  /* Olive (headers SALADS, badge, titres sections) */
+  --color-olive-50: #f4f6f0;
+  --color-olive-100: #e4e9dc;
+  --color-olive-200: #c9d4b8;
+  --color-olive-300: #a8b892;
+  --color-olive-400: #859668;
+  --color-olive-500: #68784f;
+  --color-olive-600: #515f3d;
+  --color-olive-700: #414c33;
+  --color-olive-800: #363f2c;
+  --color-olive-900: #2e3527;
+  --color-olive-950: #171c12;
 
-  --color-cream-50: #fdfbf7;
-  --color-cream-100: #f5ede0;
-  --color-cream-200: #ede4d4;
+  /* Fond menu = blanc pur ; logo = beige chaud */
+  --color-cream-50: #ffffff;
+  --color-cream-100: #faf8f5;
+  --color-cream-200: #ede8e0;
 
   --color-warm-900: #1a1410;
   --color-warm-800: #2c1810;
-  --color-warm-700: #3d2914;
 
-  --color-surface-50: #faf6f0;
-  --color-surface-100: #f5ede0;
-  --color-surface-200: #ede4d4;
-  --color-surface-800: #2c1810;
-  --color-surface-900: #1a1410;
-  --color-surface-950: #120e0b;
+  --color-surface-50: #ffffff;
+  --color-surface-100: #faf8f5;
+  --color-surface-200: #ede8e0;
+  --color-surface-800: #2e3527;
+  --color-surface-900: #171c12;
+  --color-surface-950: #0f120c;
 
-  --font-display: "Cormorant Garamond", "Playfair Display", Georgia, serif;
+  --font-family-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-family-display: "Bebas Neue", "Arial Narrow", sans-serif;
+  --font-family-brand: "Allura", "Segoe Script", cursive;
 
-  --radius-xl: 1rem;
-  --radius-2xl: 1.25rem;
-  --radius-3xl: 1.5rem;
+  --radius-xl: 0.75rem;
+  --radius-2xl: 1rem;
+  --radius-3xl: 1.25rem;
 
-  --shadow-warm-sm: 0 1px 3px rgb(61 41 20 / 0.08);
-  --shadow-warm-md: 0 4px 14px rgb(61 41 20 / 0.1);
-  --shadow-warm-lg: 0 12px 40px rgb(61 41 20 / 0.12);
+  --shadow-warm-sm: 0 1px 3px rgb(45 53 39 / 0.06);
+  --shadow-warm-md: 0 4px 20px rgb(45 53 39 / 0.08);
+  --shadow-warm-lg: 0 12px 40px rgb(45 53 39 / 0.1);
 }

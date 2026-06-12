@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { Button } from "@repo/ui/button";
+import { BarukLogo } from "./baruk-logo";
 
 const links = [
   { href: "/menu", label: "Menu" },
@@ -14,21 +15,16 @@ export function SiteHeader() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-baruk-200/50 bg-cream-100/90 backdrop-blur-md">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
-        <Link href="/" className="group flex items-center gap-3">
-          <span className="h-8 w-0.5 rounded-full bg-gold-500" />
-          <span className="font-display text-2xl font-bold tracking-tight text-baruk-900">
-            BARUK
-          </span>
-        </Link>
+    <header className="sticky top-0 z-50 border-b border-surface-200 bg-white/95 backdrop-blur-md">
+      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
+        <BarukLogo variant="header" />
 
         <nav className="hidden items-center gap-8 md:flex">
           {links.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className="text-sm font-medium text-baruk-800 transition hover:text-baruk-600"
+              className="text-sm font-medium uppercase tracking-wider text-olive-800 transition hover:text-baruk-600"
             >
               {link.label}
             </Link>
@@ -37,11 +33,11 @@ export function SiteHeader() {
 
         <div className="flex items-center gap-3">
           <Link href="/reservation" className="hidden sm:block">
-            <Button size="sm">Réserver</Button>
+            <Button size="sm">Commander</Button>
           </Link>
           <button
             type="button"
-            className="rounded-lg p-2 text-baruk-800 md:hidden"
+            className="rounded-lg p-2 text-olive-800 md:hidden"
             onClick={() => setOpen((v) => !v)}
             aria-label="Menu"
           >
@@ -57,20 +53,20 @@ export function SiteHeader() {
       </div>
 
       {open && (
-        <nav className="border-t border-baruk-200/50 bg-cream-50 px-4 py-4 md:hidden">
+        <nav className="border-t border-surface-200 bg-white px-4 py-4 md:hidden">
           <div className="flex flex-col gap-3">
             {links.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="py-2 text-baruk-800"
+                className="py-2 text-sm font-medium uppercase tracking-wider text-olive-800"
                 onClick={() => setOpen(false)}
               >
                 {link.label}
               </Link>
             ))}
             <Link href="/reservation" onClick={() => setOpen(false)}>
-              <Button className="w-full">Réserver une table</Button>
+              <Button className="w-full">Commander</Button>
             </Link>
           </div>
         </nav>

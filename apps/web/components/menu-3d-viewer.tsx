@@ -19,7 +19,7 @@ export interface MenuCategoryView {
   }[];
 }
 
-const COLORS = ["#c4694a", "#d4a574", "#c9a227"] as const;
+const COLORS = ["#c43d2a", "#414c33", "#68784f"] as const;
 
 function Plate3D({
   category,

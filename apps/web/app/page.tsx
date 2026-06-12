@@ -1,149 +1,129 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "@repo/ui/button";
-import { Hero, FeatureCard } from "@repo/ui/marketing";
 import { Container, Section } from "@repo/ui/layout";
-import { MenuCard } from "@repo/ui/marketing";
 
-const signatures = [
+const categories = [
   {
-    name: "Tajine poulet citron",
-    description: "Olives confites, semoule",
-    price: 120,
-    imageUrl: "/menu/tajine-poulet-citron.svg",
+    outline: "STARTERS",
+    solid: "& SALADS",
+    image: "670867159_17870811888603638_2828346832722138098_n-e9646757-8d0b-42b2-b413-6463192970c0.png",
+    href: "/menu",
   },
   {
-    name: "Couscous royal",
-    description: "7 légumes, viandes",
-    price: 145,
-    imageUrl: "/menu/couscous-royal.svg",
+    outline: "CHALLAH",
+    solid: "& PITA'S",
+    image: "671231492_17870811897603638_8397437272554025257_n-f6fe063b-4364-4c34-b522-4acb44b8e114.png",
+    href: "/menu",
   },
   {
-    name: "Pastilla au poulet",
-    description: "Amandes, cannelle",
-    price: 110,
-    imageUrl: "/menu/pastilla-poulet.svg",
+    outline: "PIZZA",
+    solid: "PIDDE",
+    image: "671239712_17870811906603638_7695263784569584374_n-e189add8-3b2a-4bb6-9844-85e5b493be44.png",
+    href: "/menu",
+  },
+  {
+    outline: "HUMMUS",
+    solid: "BAR",
+    image: "673118358_17870811918603638_9133142597155455368_n-cd834621-2b50-403f-956b-9a01f9547382.png",
+    href: "/menu",
   },
 ];
 
 export default function HomePage() {
   return (
-    <div>
-      <section className="relative overflow-hidden bg-hero-gradient bg-zellige">
-        <div
-          className="pointer-events-none absolute inset-0 bg-cover bg-center opacity-20"
-          style={{ backgroundImage: "url(/brand/hero.webp)" }}
-        />
-        <Hero
-          eyebrow="Restaurant · Casablanca"
-          title={
-            <>
-              L&apos;art culinaire
+    <div className="bg-white">
+      {/* Hero — style menu editorial */}
+      <section className="relative overflow-hidden border-b border-surface-200">
+        <div className="mx-auto grid max-w-6xl items-center gap-8 px-4 py-16 md:grid-cols-2 md:py-24">
+          <div>
+            <p className="text-menu-desc">Casablanca · Levant Kitchen</p>
+            <h1 className="mt-4 font-display text-6xl leading-none md:text-8xl">
+              <span className="text-header-outline">FAST FOOD</span>
               <br />
-              <span className="text-gradient-gold">marocain réinventé</span>
-            </>
-          }
-          subtitle="Menu immersif, réservation en ligne et une expérience sensorielle inspirée des saveurs authentiques de BARUK."
-        >
-          <Link href="/menu">
-            <Button size="lg">Explorer le menu</Button>
-          </Link>
-          <Link href="/reservation">
-            <Button size="lg" variant="gold">
-              Réserver une table
-            </Button>
-          </Link>
-        </Hero>
-        <div className="pointer-events-none absolute -right-20 top-20 hidden h-96 w-96 rounded-full bg-baruk-600/10 blur-3xl lg:block" />
+              <span className="text-header-solid">DU CŒUR</span>
+            </h1>
+            <p className="mt-6 max-w-md text-base leading-relaxed text-olive-700/80">
+              Hummus onctueux, pita grillée, pidde croustillante et bowls parfumés.
+              L&apos;authenticité levantine, servie avec amour.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-4">
+              <Link href="/menu">
+                <Button size="lg">Voir le menu</Button>
+              </Link>
+              <Link href="/reservation">
+                <Button size="lg" variant="outline">
+                  Réserver
+                </Button>
+              </Link>
+            </div>
+          </div>
+          <div className="relative flex justify-center">
+            <Image
+              src="/brand/logo-monogram.png"
+              alt="BARUK monogramme"
+              width={400}
+              height={400}
+              className="max-h-[320px] w-auto object-contain md:max-h-[420px]"
+              priority
+            />
+          </div>
+        </div>
       </section>
 
-      <Section>
+      {/* Catégories — cartes menu Instagram */}
+      <Section className="py-16 md:py-24">
         <Container>
-          <div className="mb-10 text-center">
-            <p className="text-xs font-semibold uppercase tracking-[0.25em] text-gold-600">
-              L&apos;expérience BARUK
-            </p>
-            <h2 className="mt-3 font-display text-3xl font-bold text-baruk-900 md:text-4xl">
-              Chaque détail compte
+          <div className="mb-12 text-center">
+            <span className="font-brand text-4xl text-baruk-600">Baruk.</span>
+            <h2 className="mt-2 font-display text-4xl tracking-wider text-olive-800 md:text-5xl">
+              NOTRE CARTE
             </h2>
           </div>
-          <div className="grid gap-6 md:grid-cols-3">
-            <FeatureCard
-              title="Menu immersif"
-              description="Parcourez nos catégories en 3D ou en grille élégante, avec photos et descriptions détaillées."
-              href="/menu"
-              icon={
-                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                </svg>
-              }
-            />
-            <FeatureCard
-              title="Réservation"
-              description="Choisissez date, heure et nombre de couverts en quelques clics. Confirmation rapide."
-              href="/reservation"
-              icon={
-                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
-              }
-            />
-            <FeatureCard
-              title="Nous trouver"
-              description="Adresse, horaires, carte interactive et contacts du restaurant à Casablanca."
-              href="/contact"
-              icon={
-                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
-              }
-            />
-          </div>
-        </Container>
-      </Section>
-
-      <Section className="bg-cream-50">
-        <Container>
-          <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.25em] text-gold-600">
-                Nos signatures
-              </p>
-              <h2 className="mt-3 font-display text-3xl font-bold text-baruk-900">
-                Plats emblématiques
-              </h2>
-            </div>
-            <Link href="/menu">
-              <Button variant="outline">Voir tout le menu</Button>
-            </Link>
-          </div>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {signatures.map((item) => (
-              <MenuCard key={item.name} {...item} />
+          <div className="grid gap-8 sm:grid-cols-2">
+            {categories.map((cat) => (
+              <Link
+                key={cat.outline}
+                href={cat.href}
+                className="group overflow-hidden rounded-2xl border border-surface-200 bg-white shadow-[var(--shadow-warm-sm)] transition hover:shadow-[var(--shadow-warm-md)]"
+              >
+                <div className="overflow-hidden bg-cream-100">
+                  <Image
+                    src={`/brand/${cat.image}`}
+                    alt={`${cat.outline} ${cat.solid}`}
+                    width={600}
+                    height={600}
+                    className="aspect-[4/3] w-full object-cover transition duration-500 group-hover:scale-[1.02]"
+                  />
+                </div>
+                <div className="p-6">
+                  <h3 className="font-display text-3xl leading-none tracking-wider">
+                    <span className="text-header-outline text-3xl">{cat.outline}</span>{" "}
+                    <span className="text-header-solid">{cat.solid}</span>
+                  </h3>
+                  <p className="mt-3 text-menu-desc group-hover:text-baruk-600">
+                    Découvrir →
+                  </p>
+                </div>
+              </Link>
             ))}
           </div>
         </Container>
       </Section>
 
-      <Section>
+      {/* CTA Instagram */}
+      <Section className="border-t border-surface-200 bg-cream-100 py-16">
         <Container>
-          <div className="overflow-hidden rounded-3xl border border-baruk-200/50 bg-gradient-to-br from-baruk-700 to-warm-900 px-8 py-14 text-center md:px-16">
-            <p className="text-xs font-semibold uppercase tracking-[0.25em] text-gold-400">
-              Suivez-nous
-            </p>
-            <h2 className="mt-4 font-display text-3xl font-bold text-cream-100 md:text-4xl">
-              L&apos;univers BARUK sur Instagram
-            </h2>
-            <p className="mx-auto mt-4 max-w-lg text-baruk-200">
-              Découvrez nos créations, l&apos;ambiance du restaurant et nos événements sur @baruk.ma
-            </p>
+          <div className="flex flex-col items-center text-center">
+            <span className="font-brand text-5xl text-baruk-600">Baruk.</span>
+            <p className="mt-2 text-menu-desc">Suivez-nous</p>
             <a
               href="https://www.instagram.com/baruk.ma/"
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-8 inline-block"
+              className="mt-6"
             >
-              <Button variant="gold" size="lg">
+              <Button size="lg" variant="secondary">
                 @baruk.ma
               </Button>
             </a>

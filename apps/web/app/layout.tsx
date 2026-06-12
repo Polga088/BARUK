@@ -1,21 +1,32 @@
 import "@repo/ui/styles.css";
 import "./globals.css";
 import type { Metadata } from "next";
-import { GeistSans } from "geist/font/sans";
-import { Cormorant_Garamond } from "next/font/google";
+import { Bebas_Neue, DM_Sans, Allura } from "next/font/google";
 import { SiteHeader } from "../components/site-header";
 import { SiteFooter } from "../components/site-footer";
 
-const display = Cormorant_Garamond({
+const sans = DM_Sans({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
-  variable: "--font-display",
+  variable: "--font-family-sans",
+});
+
+const display = Bebas_Neue({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-family-display",
+});
+
+const brand = Allura({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-family-brand",
 });
 
 export const metadata: Metadata = {
-  title: "BARUK — Restaurant & Expérience culinaire",
+  title: "BARUK — Fast Food du Cœur",
   description:
-    "Découvrez BARUK : cuisine marocaine moderne, réservation en ligne et expérience immersive.",
+    "Baruk Casablanca : hummus, pita, pidde, bowls. Cuisine levantine premium.",
 };
 
 export default function RootLayout({
@@ -26,7 +37,7 @@ export default function RootLayout({
   return (
     <html lang="fr">
       <body
-        className={`${GeistSans.className} ${display.variable} min-h-screen bg-cream-100 antialiased`}
+        className={`${sans.className} ${display.variable} ${brand.variable} min-h-screen bg-white antialiased`}
       >
         <SiteHeader />
         <main>{children}</main>

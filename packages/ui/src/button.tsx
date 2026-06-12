@@ -2,15 +2,15 @@ import { type ButtonHTMLAttributes, forwardRef } from "react";
 
 const variants = {
   primary:
-    "ui:bg-baruk-600 ui:text-white ui:hover:bg-baruk-700 ui:shadow-[var(--shadow-warm-sm)] ui:hover:shadow-[var(--shadow-warm-md)]",
+    "ui:bg-baruk-600 ui:text-white ui:hover:bg-baruk-700 ui:shadow-[var(--shadow-warm-sm)]",
   gold:
-    "ui:border ui:border-gold-500 ui:text-gold-600 ui:hover:bg-gold-500/10 ui:bg-transparent",
+    "ui:border ui:border-baruk-600 ui:text-baruk-600 ui:hover:bg-baruk-50 ui:bg-transparent",
   secondary:
-    "ui:bg-warm-900 ui:text-cream-100 ui:hover:bg-baruk-900 ui:border ui:border-warm-800",
+    "ui:bg-olive-700 ui:text-white ui:hover:bg-olive-800",
   outline:
-    "ui:border ui:border-baruk-600 ui:text-baruk-700 ui:hover:bg-baruk-100 ui:bg-transparent",
+    "ui:border ui:border-olive-700 ui:text-olive-800 ui:hover:bg-olive-50 ui:bg-transparent",
   ghost:
-    "ui:text-baruk-800 ui:hover:bg-baruk-100 ui:bg-transparent",
+    "ui:text-olive-800 ui:hover:bg-surface-100 ui:bg-transparent",
   danger: "ui:bg-red-600 ui:text-white ui:hover:bg-red-500",
 } as const;
 

@@ -1,32 +1,33 @@
 # BARUK Design System
 
-Identité chaleureuse inspirée d'Instagram @baruk.ma — terracotta, ocre, beige, accents dorés.
+Identité extraite des menus Instagram @baruk.ma — **Fast Food du Cœur**.
 
 ## Couleurs
 
 | Token | Hex | Usage |
 |-------|-----|--------|
-| `baruk-100` | `#f5ede0` | Fond principal (web, owner, admin) |
-| `baruk-600` | `#c4694a` | CTA primaire, terracotta |
-| `baruk-400` | `#d4a574` | Ocre, highlights |
-| `gold-500` | `#c9a227` | Accents, séparateurs, prix |
-| `baruk-900` | `#3d2914` | Texte principal |
-| `warm-900` | `#1a1410` | Fond staff PWA |
+| `baruk-600` | `#c43d2a` | Terracotta — prix, CTA, script |
+| `olive-700` | `#414c33` | Headers sections (SALADS, PLATS) |
+| `olive-950` | `#171c12` | Footer, dark accents |
+| `cream-100` | `#faf8f5` | Fond alternatif |
+| Fond web | `#ffffff` | Blanc menu editorial |
 
 ## Typographie
 
-- **Display :** Cormorant Garamond — titres hero, menu
-- **Body :** Geist Sans — dashboards, formulaires
-- **Labels :** uppercase `tracking-[0.2em]` + `text-gold-500`
+| Rôle | Font | Usage |
+|------|------|--------|
+| **Brand script** | Allura | "Baruk." + tagline |
+| **Headers** | Bebas Neue | STARTERS, SALADS, CHALLAH (caps) |
+| **Outline headers** | Bebas + `-webkit-text-stroke` | STARTERS outline terracotta |
+| **Body / UI** | DM Sans | Descriptions, formulaires, dashboards |
+| **Descriptions menu** | `.text-menu-desc` | Caps, tracking 0.12em, grey |
 
-## Composants (`@repo/ui`)
+## Logo
 
-- `Button` — variants: primary, gold, outline, ghost, secondary, danger
-- `Panel` — fond crème, bordure chaude
-- `Hero`, `MenuCard`, `StatCard`, `DataTable`, `LoginForm`, `StaffShell`
-- `Container`, `Section`, `PageHeader`, `EmptyState`
+- Monogramme : `/brand/logo-monogram.png`
+- Composant : `BarukLogo` (header | monogram | light)
+- Tagline : **FAST FOOD DU CŒUR**
 
-## Assets
+## Assets menu
 
-- `apps/web/public/brand/` — hero, textures
-- `apps/web/public/menu/` — photos plats (WebP/SVG)
+- `/brand/*.png` — visuels carte Instagram (starters, pita, pidde, hummus)

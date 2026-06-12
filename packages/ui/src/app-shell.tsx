@@ -15,22 +15,24 @@ export function AppShell({
   activePath?: string;
 }) {
   return (
-    <div className="ui:min-h-screen ui:bg-cream-100">
-      <header className="ui:border-b ui:border-baruk-200/60 ui:bg-cream-50/90 ui:backdrop-blur-md">
+    <div className="ui:min-h-screen ui:bg-white">
+      <header className="ui:border-b ui:border-surface-200 ui:bg-white/95 ui:backdrop-blur-md">
         <div className="ui:mx-auto ui:flex ui:max-w-7xl ui:items-center ui:justify-between ui:px-4 ui:py-4">
           <div className="ui:flex ui:items-center ui:gap-8">
             <Link
               href="/"
-              className="ui:font-display ui:text-xl ui:font-bold ui:text-baruk-800"
+              className="ui:font-brand ui:text-2xl ui:text-baruk-600"
             >
-              BARUK
+              Baruk.
             </Link>
-            <span className="ui:text-sm ui:text-baruk-700/60">{title}</span>
+            <span className="ui:text-xs ui:font-medium ui:uppercase ui:tracking-widest ui:text-olive-600">
+              {title}
+            </span>
           </div>
           {user && (
-            <div className="ui:text-sm ui:text-baruk-800">
+            <div className="ui:text-sm ui:text-olive-800">
               {user.name}{" "}
-              <span className="ui:rounded-full ui:bg-gold-500/15 ui:px-2.5 ui:py-0.5 ui:text-xs ui:font-medium ui:text-gold-600">
+              <span className="ui:rounded-full ui:bg-olive-100 ui:px-2.5 ui:py-0.5 ui:text-xs ui:font-medium ui:text-olive-700">
                 {user.role}
               </span>
             </div>
@@ -51,7 +53,7 @@ export function AppShell({
                   className={`ui:block ui:rounded-xl ui:px-3 ui:py-2.5 ui:text-sm ui:font-medium ui:transition-colors ${
                     isActive
                       ? "ui:bg-baruk-600 ui:text-white ui:shadow-[var(--shadow-warm-sm)]"
-                      : "ui:text-baruk-800 ui:hover:bg-baruk-100"
+                      : "ui:text-olive-800 ui:hover:bg-surface-100"
                   }`}
                 >
                   {item.label}

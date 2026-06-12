@@ -2,8 +2,8 @@
 @import "@repo/tailwind-config";
 
 :root {
-  --foreground: #3d2914;
-  --background: #f5ede0;
+  --foreground: #2e3527;
+  --background: #ffffff;
 }
 
 body {
@@ -12,5 +12,6 @@ body {
 }
 
 .font-display {
-  font-family: var(--font-display);
+  font-family: var(--font-family-display);
+  letter-spacing: 0.04em;
 }

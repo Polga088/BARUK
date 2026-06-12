@@ -2,10 +2,10 @@
 @import "@repo/tailwind-config";
 
 :root {
-  --foreground: #3d2914;
-  --background: #f5ede0;
-  --accent-gold: #c9a227;
-  --accent-terracotta: #c4694a;
+  --foreground: #2e3527;
+  --background: #ffffff;
+  --baruk-terracotta: #c43d2a;
+  --baruk-olive: #414c33;
 }
 
 body {
@@ -14,24 +14,33 @@ body {
 }
 
 .font-display {
-  font-family: var(--font-display);
+  font-family: var(--font-family-display);
+  letter-spacing: 0.04em;
 }
 
-.text-gradient-gold {
-  background: linear-gradient(135deg, #c9a227 0%, #d4af37 50%, #c4694a 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
+.font-brand {
+  font-family: var(--font-family-brand);
+}
+
+/* Titres type menu STARTERS (outline terracotta) */
+.text-header-outline {
+  -webkit-text-stroke: 1.5px var(--baruk-terracotta);
   color: transparent;
 }
 
-.bg-zellige {
-  background-image: url("/brand/texture-zellige.svg");
-  background-size: 120px 120px;
+.text-header-solid {
+  color: var(--baruk-olive);
 }
 
-.bg-hero-gradient {
-  background:
-    radial-gradient(ellipse 80% 60% at 50% 0%, rgb(196 105 74 / 0.15), transparent),
-    radial-gradient(ellipse 60% 50% at 80% 20%, rgb(201 162 39 / 0.1), transparent),
-    linear-gradient(180deg, #f5ede0 0%, #ede4d4 100%);
+.text-menu-desc {
+  font-size: 0.7rem;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #9ca3af;
+}
+
+.text-price {
+  color: var(--baruk-terracotta);
+  font-weight: 700;
 }
