@@ -1,12 +1,19 @@
 {
-  "name": "with-tailwind",
+  "name": "baruk",
   "private": true,
   "scripts": {
     "build": "turbo run build",
-    "dev": "turbo run dev",
+    "dev": "bash scripts/sync-env.sh && turbo run dev",
+    "dev:local": "bash scripts/dev-local.sh",
     "lint": "turbo run lint",
     "check-types": "turbo run check-types",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "db:generate": "pnpm --filter @repo/database db:generate",
+    "db:push": "pnpm --filter @repo/database db:push",
+    "db:seed": "pnpm --filter @repo/database db:seed",
+    "db:local": "bash scripts/dev-local.sh",
+    "env:sync": "bash scripts/sync-env.sh",
+    "deploy:vps": "bash scripts/deploy-vps.sh"
   },
   "devDependencies": {
     "prettier": "^3.6.0",

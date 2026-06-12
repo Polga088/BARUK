@@ -1,0 +1,23 @@
+# Dev local (Mac) — PostgreSQL uniquement.
+# Les apps Next.js tournent avec : pnpm dev
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: baruk-postgres-dev
+    restart: unless-stopped
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: baruk
+    volumes:
+      - baruk_pg_dev:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d baruk"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  baruk_pg_dev:
