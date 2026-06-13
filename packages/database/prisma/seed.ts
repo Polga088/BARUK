@@ -1,5 +1,5 @@
 import { hash } from "bcryptjs";
-import { prisma, UserRole } from "../src/index";
+import { prisma, ReservationStatus, TableStatus, UserRole } from "../src/index";
 
 async function main() {
   const org = await prisma.organization.upsert({
@@ -116,6 +116,62 @@ async function main() {
     });
   }
 
+  const tables = await prisma.restaurantTable.findMany({
+    where: { branchId: branch.id },
+    orderBy: { number: "asc" },
+  });
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const tomorrow = new Date(today);
+  tomorrow.setDate(tomorrow.getDate() + 1);
+
+  await prisma.reservation.deleteMany({ where: { branchId: branch.id } });
+
+  await prisma.reservation.create({
+    data: {
+      branchId: branch.id,
+      guestName: "Fatima Alami",
+      guestPhone: "+212 6 12 34 56 78",
+      guestEmail: "fatima@example.com",
+      partySize: 4,
+      date: today,
+      time: "19:30",
+      status: ReservationStatus.PENDING,
+      notes: "Anniversaire — gâteau prévu",
+    },
+  });
+
+  await prisma.reservation.create({
+    data: {
+      branchId: branch.id,
+      tableId: tables[0]!.id,
+      guestName: "Karim Benjelloun",
+      guestPhone: "+212 6 98 76 54 32",
+      partySize: 2,
+      date: today,
+      time: "20:00",
+      status: ReservationStatus.CONFIRMED,
+    },
+  });
+
+  await prisma.restaurantTable.update({
+    where: { id: tables[0]!.id },
+    data: { status: TableStatus.RESERVED },
+  });
+
+  await prisma.reservation.create({
+    data: {
+      branchId: branch.id,
+      guestName: "Sara Idrissi",
+      guestPhone: "+212 6 55 44 33 22",
+      partySize: 6,
+      date: tomorrow,
+      time: "13:00",
+      status: ReservationStatus.PENDING,
+    },
+  });
+
   const categories = [
     {
       name: "Entrées",
@@ -183,17 +239,17 @@ async function main() {
     });
   }
 
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
+  const todayLedger = new Date();
+  todayLedger.setHours(0, 0, 0, 0);
 
   await prisma.dailyLedger.upsert({
     where: {
-      branchId_date: { branchId: branch.id, date: today },
+      branchId_date: { branchId: branch.id, date: todayLedger },
     },
     update: {},
     create: {
       branchId: branch.id,
-      date: today,
+      date: todayLedger,
       openingCash: 500,
       totalSales: 0,
       totalTips: 0,

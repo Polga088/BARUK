@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { auth } from "@repo/auth";
-import { decimalToNumber, prisma, TableStatus } from "@repo/database";
+import { decimalToNumber, prisma, TableStatus, completeReservationForTable } from "@repo/database";
 import { getEditableOrder, recalculateOrder } from "../../../../../lib/orders";
 
 const paySchema = z.object({
@@ -67,6 +67,10 @@ export async function POST(
         ]
       : []),
   ]);
+
+  if (order.tableId) {
+    await completeReservationForTable(order.tableId);
+  }
 
   const today = new Date();
   today.setHours(0, 0, 0, 0);

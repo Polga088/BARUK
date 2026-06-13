@@ -12,6 +12,8 @@ interface TableView {
   section: string | null;
   hasOpenOrder: boolean;
   openOrderId: string | null;
+  reservationGuest?: string | null;
+  reservationTime?: string | null;
 }
 
 const statusStyles: Record<
@@ -53,6 +55,11 @@ export function FloorPlan({ tables }: { tables: TableView[] }) {
             {table.hasOpenOrder && (
               <p className="mt-4 text-sm font-medium text-gold-400">
                 Commande en cours →
+              </p>
+            )}
+            {!table.hasOpenOrder && table.reservationGuest && (
+              <p className="mt-4 text-sm text-gold-400">
+                {table.reservationTime} · {table.reservationGuest}
               </p>
             )}
           </Link>

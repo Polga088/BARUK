@@ -2,15 +2,13 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { auth } from "@repo/auth";
 import {
-  prisma,
   ReservationStatus,
   ReservationError,
   updateReservation,
 } from "@repo/database";
 
 const schema = z.object({
-  status: z.nativeEnum(ReservationStatus).optional(),
-  tableId: z.string().nullable().optional(),
+  status: z.nativeEnum(ReservationStatus),
 });
 
 function errorResponse(error: unknown) {
@@ -22,10 +20,7 @@ function errorResponse(error: unknown) {
       error.code === "NOT_FOUND"
         ? 404
         : error.code === "INVALID_TRANSITION" ||
-            error.code === "TABLE_REQUIRED" ||
-            error.code === "TABLE_CONFLICT" ||
-            error.code === "TABLE_TOO_SMALL" ||
-            error.code === "TABLE_BUSY"
+            error.code === "TABLE_REQUIRED"
           ? 409
           : 400;
     return NextResponse.json({ error: error.message }, { status });
@@ -45,32 +40,10 @@ export async function PATCH(
   const { id } = await params;
 
   try {
-    const body = schema.parse(await request.json());
-    const reservation = await updateReservation(id, body);
+    const { status } = schema.parse(await request.json());
+    const reservation = await updateReservation(id, { status });
     return NextResponse.json(reservation);
   } catch (error) {
     return errorResponse(error);
   }
-}
-
-export async function GET(
-  _request: Request,
-  { params }: { params: Promise<{ id: string }> },
-) {
-  const session = await auth();
-  if (!session?.user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
-  const { id } = await params;
-  const reservation = await prisma.reservation.findUnique({
-    where: { id },
-    include: { table: true },
-  });
-
-  if (!reservation) {
-    return NextResponse.json({ error: "Not found" }, { status: 404 });
-  }
-
-  return NextResponse.json(reservation);
 }
