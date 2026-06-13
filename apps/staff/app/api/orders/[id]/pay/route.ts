@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { auth } from "@repo/auth";
-import { decimalToNumber, prisma, TableStatus, completeReservationForTable } from "@repo/database";
+import { decimalToNumber, ensureTodayLedger, prisma, TableStatus, completeReservationForTable } from "@repo/database";
 import { getEditableOrder, recalculateOrder } from "../../../../../lib/orders";
 
 const paySchema = z.object({
@@ -28,6 +28,14 @@ export async function POST(
   }
 
   const { order } = editable;
+
+  const ledger = await ensureTodayLedger(order.branchId);
+  if (ledger.closedAt) {
+    return NextResponse.json(
+      { error: "Caisse clôturée — encaissement impossible." },
+      { status: 409 },
+    );
+  }
 
   const lineCount = await prisma.orderLine.count({ where: { orderId } });
   if (lineCount === 0) {
@@ -72,45 +80,34 @@ export async function POST(
     await completeReservationForTable(order.tableId);
   }
 
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-
-  const ledger = await prisma.dailyLedger.findUnique({
-    where: {
-      branchId_date: { branchId: order.branchId, date: today },
+  await prisma.dailyLedger.update({
+    where: { id: ledger.id },
+    data: {
+      totalSales: { increment: orderTotal },
+      totalTips: { increment: orderTip },
     },
   });
 
-  if (ledger) {
-    await prisma.dailyLedger.update({
-      where: { id: ledger.id },
-      data: {
-        totalSales: { increment: orderTotal },
-        totalTips: { increment: orderTip },
-      },
-    });
+  await prisma.ledgerEntry.create({
+    data: {
+      ledgerId: ledger.id,
+      type: "SALE",
+      amount: orderTotal,
+      description: `Commande #${order.orderNumber}`,
+      referenceId: order.id,
+    },
+  });
 
+  if (orderTip > 0) {
     await prisma.ledgerEntry.create({
       data: {
         ledgerId: ledger.id,
-        type: "SALE",
-        amount: orderTotal,
-        description: `Commande #${order.orderNumber}`,
+        type: "TIP",
+        amount: orderTip,
+        description: `Pourboire commande #${order.orderNumber}`,
         referenceId: order.id,
       },
     });
-
-    if (orderTip > 0) {
-      await prisma.ledgerEntry.create({
-        data: {
-          ledgerId: ledger.id,
-          type: "TIP",
-          amount: orderTip,
-          description: `Pourboire commande #${order.orderNumber}`,
-          referenceId: order.id,
-        },
-      });
-    }
   }
 
   return NextResponse.json({ ok: true, paidAt, total: orderTotal, tipAmount: orderTip });

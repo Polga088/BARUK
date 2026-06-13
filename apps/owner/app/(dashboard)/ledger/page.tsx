@@ -1,11 +1,15 @@
 import {
   decimalToNumber,
+  ensureTodayLedger,
   formatCurrency,
   getDefaultBranch,
+  ledgerExpectedCash,
   prisma,
 } from "@repo/database";
 import { Panel, PanelContent, PanelHeader } from "@repo/ui/panel";
+import { PageHeader } from "@repo/ui/layout";
 import { LedgerSummary } from "../../../components/ledger-summary";
+import { LedgerDayPanel } from "../../../components/ledger-day-panel";
 
 export default async function OwnerLedgerPage() {
   const branch = await getDefaultBranch();
@@ -19,10 +23,10 @@ export default async function OwnerLedgerPage() {
 
   const monthStart = new Date(today.getFullYear(), today.getMonth(), 1);
 
-  const [dailyLedgers, weekOrders, monthOrders] = await Promise.all([
+  const [todayLedger, dailyLedgers, weekOrders, monthOrders] = await Promise.all([
+    ensureTodayLedger(branch.id),
     prisma.dailyLedger.findMany({
       where: { branchId: branch.id },
-      include: { entries: true },
       orderBy: { date: "desc" },
       take: 14,
     }),
@@ -51,16 +55,39 @@ export default async function OwnerLedgerPage() {
     0,
   );
 
+  const expectedCash = ledgerExpectedCash(todayLedger);
+
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold">Journal comptable</h1>
-        <p className="text-zinc-500">Jour, semaine et mois.</p>
-      </div>
+      <PageHeader
+        title="Journal comptable"
+        description="Caisse du jour, dépenses et clôture."
+      />
 
-      <LedgerSummary
-        weekRevenue={weekRevenue}
-        monthRevenue={monthRevenue}
+      <LedgerSummary weekRevenue={weekRevenue} monthRevenue={monthRevenue} />
+
+      <LedgerDayPanel
+        expectedCash={expectedCash}
+        ledger={{
+          id: todayLedger.id,
+          closedAt: todayLedger.closedAt?.toISOString() ?? null,
+          notes: todayLedger.notes,
+          openingCash: decimalToNumber(todayLedger.openingCash),
+          closingCash:
+            todayLedger.closingCash !== null
+              ? decimalToNumber(todayLedger.closingCash)
+              : null,
+          totalSales: decimalToNumber(todayLedger.totalSales),
+          totalTips: decimalToNumber(todayLedger.totalTips),
+          totalExpenses: decimalToNumber(todayLedger.totalExpenses),
+          entries: todayLedger.entries.map((entry) => ({
+            id: entry.id,
+            type: entry.type,
+            amount: decimalToNumber(entry.amount),
+            description: entry.description,
+            createdAt: entry.createdAt.toISOString(),
+          })),
+        }}
       />
 
       <Panel>
@@ -68,16 +95,17 @@ export default async function OwnerLedgerPage() {
         <PanelContent>
           <table className="min-w-full text-sm">
             <thead>
-              <tr className="border-b text-left text-zinc-500">
+              <tr className="border-b border-baruk-100 text-left text-baruk-700/70">
                 <th className="py-2 pr-4">Date</th>
                 <th className="py-2 pr-4">Ventes</th>
                 <th className="py-2 pr-4">Pourboires</th>
-                <th className="py-2">Dépenses</th>
+                <th className="py-2 pr-4">Dépenses</th>
+                <th className="py-2">Statut</th>
               </tr>
             </thead>
             <tbody>
               {dailyLedgers.map((ledger) => (
-                <tr key={ledger.id} className="border-b border-zinc-100">
+                <tr key={ledger.id} className="border-b border-baruk-50">
                   <td className="py-3 pr-4">
                     {ledger.date.toLocaleDateString("fr-FR")}
                   </td>
@@ -87,8 +115,11 @@ export default async function OwnerLedgerPage() {
                   <td className="py-3 pr-4">
                     {formatCurrency(decimalToNumber(ledger.totalTips))}
                   </td>
-                  <td className="py-3">
+                  <td className="py-3 pr-4">
                     {formatCurrency(decimalToNumber(ledger.totalExpenses))}
+                  </td>
+                  <td className="py-3">
+                    {ledger.closedAt ? "Clôturée" : "Ouverte"}
                   </td>
                 </tr>
               ))}
