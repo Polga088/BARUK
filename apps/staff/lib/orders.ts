@@ -1,4 +1,5 @@
-import { decimalToNumber, prisma } from "@repo/database";
+import { decimalToNumber, prisma, type OrderStatus } from "@repo/database";
+import { statusAfterLinesChange } from "./kitchen";
 
 const TAX_RATE = 0.1;
 
@@ -31,6 +32,10 @@ export async function recalculateOrder(orderId: string, tipAmount?: number) {
   const total = subtotal + taxAmount + tip;
 
   const hasLines = lines.length > 0;
+  const nextStatus = statusAfterLinesChange(
+    order.status as OrderStatus,
+    hasLines,
+  );
 
   return prisma.order.update({
     where: { id: orderId },
@@ -39,7 +44,7 @@ export async function recalculateOrder(orderId: string, tipAmount?: number) {
       taxAmount,
       tipAmount: tip,
       total,
-      status: hasLines ? "SENT" : "OPEN",
+      status: nextStatus,
     },
   });
 }

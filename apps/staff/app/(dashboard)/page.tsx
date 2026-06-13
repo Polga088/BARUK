@@ -1,5 +1,5 @@
 import { getDefaultBranch, prisma, ReservationStatus } from "@repo/database";
-import { FloorPlan } from "../../components/floor-plan";
+import { LiveFloorPlan } from "../../components/live-floor-plan";
 
 export default async function StaffHomePage() {
   const branch = await getDefaultBranch();
@@ -51,7 +51,7 @@ export default async function StaffHomePage() {
         <h1 className="text-2xl font-bold text-cream-100">Plan de salle</h1>
         <p className="text-baruk-300">{branch.name}</p>
       </div>
-      <FloorPlan tables={view} />
+      <LiveFloorPlan initialTables={view} />
     </div>
   );
 }

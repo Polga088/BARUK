@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 
 const nav = [
   { href: "/", label: "Plan de salle" },
+  { href: "/kitchen", label: "Cuisine" },
   { href: "/reservations", label: "Réservations" },
   { href: "/clock-in", label: "Pointage NFC" },
 ];

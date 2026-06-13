@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Button } from "@repo/ui/button";
+import { ORDER_STATUS_LABELS } from "../lib/kitchen";
 
 interface MenuItem {
   id: string;
@@ -49,6 +50,7 @@ export function OrderPanel({
 }) {
   const router = useRouter();
   const [lines, setLines] = useState(initialLines);
+  const [orderStatus, setOrderStatus] = useState(status);
   const [totals, setTotals] = useState<Totals>({
     subtotal: initialSubtotal,
     taxAmount: initialTax,
@@ -59,7 +61,25 @@ export function OrderPanel({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const isClosed = status === "PAID" || status === "CANCELLED";
+  const isClosed = orderStatus === "PAID" || orderStatus === "CANCELLED";
+
+  useEffect(() => {
+    setOrderStatus(status);
+  }, [status]);
+
+  useEffect(() => {
+    if (isClosed) return;
+    const interval = setInterval(async () => {
+      const response = await fetch(`/api/orders/${orderId}/status`, {
+        cache: "no-store",
+      });
+      if (response.ok) {
+        const data = (await response.json()) as { status: string };
+        setOrderStatus(data.status);
+      }
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [orderId, isClosed]);
 
   useEffect(() => {
     setLines(initialLines);
@@ -162,6 +182,23 @@ export function OrderPanel({
     setLoading(false);
   }
 
+  async function markServed() {
+    setLoading(true);
+    setError(null);
+    const response = await fetch(`/api/orders/${orderId}/status`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ status: "SERVED" }),
+    });
+
+    if (response.ok) {
+      setOrderStatus("SERVED");
+    } else {
+      setError("Impossible de marquer comme servi.");
+    }
+    setLoading(false);
+  }
+
   async function payOrder() {
     setLoading(true);
     setError(null);
@@ -212,9 +249,19 @@ export function OrderPanel({
             <h1 className="mt-1 font-display text-2xl font-bold text-cream-100">
               {tableName}
             </h1>
-            <p className="text-baruk-300">Statut · {status}</p>
+            <p className="text-baruk-300">
+              Statut ·{" "}
+              {ORDER_STATUS_LABELS[orderStatus as keyof typeof ORDER_STATUS_LABELS] ??
+                orderStatus}
+            </p>
           </div>
-          {!isClosed && (
+          <div className="flex flex-wrap gap-2">
+            {orderStatus === "READY" && !isClosed && (
+              <Button size="sm" disabled={loading} onClick={markServed}>
+                Servi au client
+              </Button>
+            )}
+            {!isClosed && (
             <Button
               variant="danger"
               size="sm"
@@ -223,7 +270,8 @@ export function OrderPanel({
             >
               Annuler
             </Button>
-          )}
+            )}
+          </div>
         </div>
 
         {error && (

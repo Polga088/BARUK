@@ -4,11 +4,9 @@ import { auth } from "@repo/auth";
 import { getDefaultBranch, prisma } from "@repo/database";
 
 const schema = z.object({
-  categoryId: z.string(),
   name: z.string().min(2),
   description: z.string().optional(),
-  price: z.number().positive(),
-  imageUrl: z.string().optional(),
+  sortOrder: z.number().int().optional(),
 });
 
 export async function POST(request: Request) {
@@ -24,31 +22,21 @@ export async function POST(request: Request) {
 
   try {
     const data = schema.parse(await request.json());
-
-    const category = await prisma.menuCategory.findFirst({
-      where: { id: data.categoryId, branchId: branch.id },
-    });
-    if (!category) {
-      return NextResponse.json({ error: "Category not found" }, { status: 404 });
-    }
-
-    const last = await prisma.menuItem.findFirst({
-      where: { categoryId: data.categoryId },
+    const last = await prisma.menuCategory.findFirst({
+      where: { branchId: branch.id },
       orderBy: { sortOrder: "desc" },
     });
 
-    const item = await prisma.menuItem.create({
+    const category = await prisma.menuCategory.create({
       data: {
-        categoryId: data.categoryId,
+        branchId: branch.id,
         name: data.name,
         description: data.description,
-        price: data.price,
-        imageUrl: data.imageUrl,
-        sortOrder: (last?.sortOrder ?? -1) + 1,
+        sortOrder: data.sortOrder ?? (last?.sortOrder ?? -1) + 1,
       },
     });
 
-    return NextResponse.json(item);
+    return NextResponse.json(category);
   } catch {
     return NextResponse.json({ error: "Données invalides" }, { status: 400 });
   }
